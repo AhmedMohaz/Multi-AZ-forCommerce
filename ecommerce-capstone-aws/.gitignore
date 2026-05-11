@@ -1,0 +1,22 @@
+# AWS credentials — never commit these
+*.pem
+*.key
+.env
+.env.*
+credentials
+
+# Artillery output files
+load-testing/results.json
+load-testing/report.html
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
+npm-debug.log
+
+# AWS CLI cache
+.aws/

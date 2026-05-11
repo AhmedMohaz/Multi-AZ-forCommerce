@@ -1,0 +1,36 @@
+# Artillery Load Test — E-Commerce Capstone
+# Run with: artillery run load-testing/loadtest.yml
+# Or use: bash scripts/08-loadtest.sh (auto-fills ALB DNS)
+
+config:
+  target: "http://YOUR_ALB_DNS_HERE"
+  phases:
+    - duration: 30
+      arrivalRate: 2
+      name: "Warm up — baseline traffic"
+    - duration: 60
+      arrivalRate: 20
+      name: "Traffic spike — watch ASG in console"
+    - duration: 30
+      arrivalRate: 2
+      name: "Cool down — return to baseline"
+  defaults:
+    headers:
+      Accept: "text/html,application/json"
+
+scenarios:
+  - name: "Browse homepage"
+    weight: 60
+    requests:
+      - get:
+          url: "/"
+          expect:
+            - statusCode: 200
+
+  - name: "Health check"
+    weight: 40
+    requests:
+      - get:
+          url: "/health"
+          expect:
+            - statusCode: 200
